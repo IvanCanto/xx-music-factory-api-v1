@@ -1,0 +1,54 @@
+{
+  "configs": [
+    "global-config.xml",
+    "albums/albums-impl.xml",
+    "catalog/catalog-main.xml",
+    "catalog/catalog-impl.xml",
+    "xx-music-factory-api.xml",
+    "albums/albums-main.xml",
+    "artists/artists-impl.xml",
+    "songs/songs-main.xml",
+    "artists/artists-main.xml",
+    "songs/songs-impl.xml"
+  ],
+  "secureProperties": [],
+  "redeploymentEnabled": true,
+  "name": "com.puntosingular.soluciones:xx-music-factory-api:1.0.0",
+  "minMuleVersion": "4.2.0-hf3",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedPackages": [],
+      "exportedResources": [
+        "albums/albums-impl.xml",
+        "albums/albums-main.xml",
+        "api/xxx-music-factory-api.raml",
+        "application-types.xml",
+        "artists/artists-impl.xml",
+        "artists/artists-main.xml",
+        "catalog/catalog-impl.xml",
+        "catalog/catalog-main.xml",
+        "examples/albums/getAlbumsResponse.json",
+        "examples/artist/artistAddRequest.json",
+        "examples/artist/getArtistResponse.json",
+        "examples/song/songsGetResponse.json",
+        "global-config.xml",
+        "log4j2.xml",
+        "properties/DEV.properties",
+        "properties/local.properties",
+        "properties/PROD.properties",
+        "properties/QA.properties",
+        "security/keystore.jks",
+        "security/log4j2.xml",
+        "songs/songs-impl.xml",
+        "songs/songs-main.xml",
+        "xx-music-factory-api.xml"
+      ]
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}
