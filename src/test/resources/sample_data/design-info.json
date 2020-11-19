@@ -10,6 +10,9 @@
     },
     "ffb4eec4-3a2a-4265-affd-8929d542274f": {
       "payload": "sample_data/json_1.json"
+    },
+    "2caa7809-ab15-43ff-a8b3-a7794f0717ba": {
+      "attributes": "sample_data/unknown.dwl"
     }
   }
 }
