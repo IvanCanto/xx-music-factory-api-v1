@@ -1,0 +1,98 @@
+[
+    {
+        "ALBUM_PUBLISH": "2016-01-29T00:00:00",
+        "GROUP_NM": "The Beatles",
+        "SONG_TITLE": "Across th Universe",
+        "SONG_DURATION": "3:58",
+        "ARTIST_LAST": "Harrison",
+        "ARTIST_BIRTH": "1943-02-25",
+        "ARTIST_DEATH": "",
+        "SONG_GENRE": "Rock",
+        "ARTIST_FIRST": "George",
+        "ALBUM_NM": "Let It Be"
+    },
+    {
+        "ALBUM_PUBLISH": "2016-01-29T00:00:00",
+        "GROUP_NM": "The Beatles",
+        "SONG_TITLE": "Across th Universe",
+        "SONG_DURATION": "3:58",
+        "ARTIST_LAST": "Lennon",
+        "ARTIST_BIRTH": "1940-10-09",
+        "ARTIST_DEATH": "1980-12-08",
+        "SONG_GENRE": "Rock",
+        "ARTIST_FIRST": "John",
+        "ALBUM_NM": "Let It Be"
+    },
+    {
+        "ALBUM_PUBLISH": "2016-01-29T00:00:00",
+        "GROUP_NM": "The Beatles",
+        "SONG_TITLE": "Across th Universe",
+        "SONG_DURATION": "3:58",
+        "ARTIST_LAST": "McCartney",
+        "ARTIST_BIRTH": "1942-06-18",
+        "ARTIST_DEATH": "",
+        "SONG_GENRE": "Rock",
+        "ARTIST_FIRST": "Paul",
+        "ALBUM_NM": "Let It Be"
+    },
+    {
+        "ALBUM_PUBLISH": "2016-01-29T00:00:00",
+        "GROUP_NM": "The Beatles",
+        "SONG_TITLE": "Across th Universe",
+        "SONG_DURATION": "3:58",
+        "ARTIST_LAST": "Starr",
+        "ARTIST_BIRTH": "1940-07-07",
+        "ARTIST_DEATH": "",
+        "SONG_GENRE": "Rock",
+        "ARTIST_FIRST": "Ringo",
+        "ALBUM_NM": "Let It Be"
+    },
+    {
+        "ALBUM_PUBLISH": "2016-01-29T00:00:00",
+        "GROUP_NM": "The Beatles",
+        "SONG_TITLE": "Let It Be",
+        "SONG_DURATION": "3:58",
+        "ARTIST_LAST": "Harrison",
+        "ARTIST_BIRTH": "1943-02-25",
+        "ARTIST_DEATH": "",
+        "SONG_GENRE": "Rock",
+        "ARTIST_FIRST": "George",
+        "ALBUM_NM": "Let It Be"
+    },
+    {
+        "ALBUM_PUBLISH": "2016-01-29T00:00:00",
+        "GROUP_NM": "The Beatles",
+        "SONG_TITLE": "Let It Be",
+        "SONG_DURATION": "3:58",
+        "ARTIST_LAST": "Lennon",
+        "ARTIST_BIRTH": "1940-10-09",
+        "ARTIST_DEATH": "1980-12-08",
+        "SONG_GENRE": "Rock",
+        "ARTIST_FIRST": "John",
+        "ALBUM_NM": "Let It Be"
+    },
+    {
+        "ALBUM_PUBLISH": "2016-01-29T00:00:00",
+        "GROUP_NM": "The Beatles",
+        "SONG_TITLE": "Let It Be",
+        "SONG_DURATION": "3:58",
+        "ARTIST_LAST": "McCartney",
+        "ARTIST_BIRTH": "1942-06-18",
+        "ARTIST_DEATH": "",
+        "SONG_GENRE": "Rock",
+        "ARTIST_FIRST": "Paul",
+        "ALBUM_NM": "Let It Be"
+    },
+    {
+        "ALBUM_PUBLISH": "2016-01-29T00:00:00",
+        "GROUP_NM": "The Beatles",
+        "SONG_TITLE": "Let It Be",
+        "SONG_DURATION": "3:58",
+        "ARTIST_LAST": "Starr",
+        "ARTIST_BIRTH": "1940-07-07",
+        "ARTIST_DEATH": "",
+        "SONG_GENRE": "Rock",
+        "ARTIST_FIRST": "Ringo",
+        "ALBUM_NM": "Let It Be"
+    }
+]

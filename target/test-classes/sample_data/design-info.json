@@ -13,6 +13,12 @@
     },
     "2caa7809-ab15-43ff-a8b3-a7794f0717ba": {
       "attributes": "sample_data/unknown.dwl"
+    },
+    "5ab57f3c-5fd8-4446-ae2a-f0e544e0a14c": {
+      "payload": "sample_data/list_object_1.dwl"
+    },
+    "41f98e2c-456d-413f-bd2d-44da4fe073b1": {
+      "payload": "sample_data/list_json.json"
     }
   }
 }
