@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:PS-Logger="http://www.mulesoft.org/schema/mule/PS-Logger" xmlns:db="http://www.mulesoft.org/schema/mule/db"
-	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:PS-Logger="http://www.mulesoft.org/schema/mule/PS-Logger"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
-http://www.mulesoft.org/schema/mule/PS-Logger http://www.mulesoft.org/schema/mule/PS-Logger/current/mule-PS-Logger.xsd">
+http://www.mulesoft.org/schema/mule/PS-Logger http://www.mulesoft.org/schema/mule/PS-Logger/current/mule-PS-Logger.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
 	<sub-flow name="impl-get-artists" doc:id="75588c1c-e691-4538-a80d-6785ba4d1e02" >
 		<logger level="INFO" doc:name="INFO START" doc:id="005c36c7-657b-4323-8f83-4807ec60cdd3" message="impl-get-artists::START"/>
 		<flow-ref doc:name="sr-build-query-param-list" doc:id="6b3b6a8b-9bdb-4337-8f75-df8221656223" name="sr-build-query-param-list" target="queryParamList"/>
@@ -219,5 +220,63 @@ var newArtistId = vars.newArtistId[0].artist_id default 0
 	</sub-flow>
 	<sub-flow name="impl-update-artists-urls" doc:id="f1d90de5-20b5-4a9f-a72d-f0ab54287862" >
 		<logger level="INFO" doc:name="INFO START" doc:id="8c5cd2f3-17a1-42f0-ad06-bb248ee9de57" message="#['impl-update-artists-urls::START::payload: ' ++ write(payload, 'application/json')]"/>
+		<set-variable value="#[%dw 2.0
+output application/java
+---
+{
+	method: p('last.fm.method'),
+	apiKey: p('last.fm.api.key'),
+	format: p('last.fm.format'),
+	artist: payload.groupName
+}]" doc:name="lastFmProperties" doc:id="5728c063-ae17-4d88-a7b2-4051867ffac7" variableName="lastFmProperties"/>
+		<flow-ref doc:name="sr-get-artist-info" doc:id="8d89b8ba-34f9-42f1-9bec-5857f2184db6" name="sr-get-artist-info" target="lastFmResponse"/>
+		<choice doc:name="Artist Found?" doc:id="fdf783aa-f540-490f-a817-0705ad8ab55a" >
+			<when expression='#[payload.statusCode=="201"]'>
+				<logger level="INFO" doc:name="Placeholder" doc:id="98005075-875e-4714-84e4-b26b529b9719" message="#['impl-update-artists-urls::Choice::Placehoder::payload: ' ++ write(payload, 'application/json')]"/>
+			</when>
+			<otherwise >
+				<ee:transform doc:name="NOT FOUND response" doc:id="c57be9d8-0671-40d6-8215-d365133ad379" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+vars.lastFmResponse
+]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+		<logger level="INFO" doc:name="INFO final response" doc:id="dbfcbe2d-b686-4b99-a42a-39daeaba9bb8" message="#['impl-update-artists-urls::FinalResponse::payload: ' ++ write(payload, 'application/json')]"/>
+	</sub-flow>
+	<sub-flow name="sr-get-artist-info" doc:id="06257b36-31ce-4e65-a213-9e79454e7480" >
+		<logger level="INFO" doc:name="INFO START lastFmProperties" doc:id="166fc925-80b3-4d82-a4a7-91bfd75653ad" message="#['sr-get-artist-info::START::payload: ' ++ write(payload, 'application/json')]"/>
+		<http:request method="GET" doc:name="Get Artist Bio" doc:id="735762e1-8700-4a43-9aaa-374d7702b15b" config-ref="last-fm-http-config" path="/${last.fm.version}">
+			<http:query-params><![CDATA[#[{
+	"method": vars.lastFmProperties.method,
+	"api_key": vars.lastFmProperties.apiKey,
+	"artist": vars.lastFmProperties.artist,
+	"format": vars.lastFmProperties.format
+}]]]></http:query-params>
+		</http:request>
+		<logger level="DEBUG" doc:name="DEBUG payload" doc:id="ef499af8-7c78-41d2-a75e-d88f620ef396" message="#['impl-update-artists-urls::DEBUG:payload: ' ++ write(payload,'application/json')]" />
+		<ee:transform doc:name="response" doc:id="97a175e4-e7e0-42ff-af21-5522476de9ee">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+var NOT_FOUND_STATUS = p('http.patch.status.nf')
+var NOT_FOUND_MESSAGE = p('http.patch.message.nf')
+var FOUND_STATUS = p('http.patch.status.ok')
+var FOUND_MESSAGE = p('http.patch.message.ok')
+---
+{
+	statusCode: if(payload.artist.bio.content==null) (NOT_FOUND_STATUS) else (FOUND_STATUS),
+	message: if(payload.artist.bio.content==null) (NOT_FOUND_MESSAGE) else (FOUND_MESSAGE),
+	bioUrl: if(payload.artist.bio.content != null) (payload.artist.bio.links.link.href)  else (NOT_FOUND_MESSAGE)
+
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="INFO END payload" doc:id="696e57e6-a98d-463f-8844-1f30aa66206a" message="#['sr-get-artist-info::START::payload: ' ++ write(payload, 'application/json')]"/>
 	</sub-flow>
 </mule>

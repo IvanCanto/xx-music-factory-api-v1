@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="artists-impl-test-suite.xml" />
+	<munit:test name="sr-get-artist-info-test" doc:id="2ace57ed-82a4-4bd8-ba51-a3b67948dcd6" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when Get Artist HTTP Request" doc:id="5ca50d73-b98b-4ce4-a25a-ef26d16d2fae" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="GET" attributeName="method" />
+					<munit-tools:with-attribute whereValue="735762e1-8700-4a43-9aaa-374d7702b15b" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[readUrl("classpath://examples/lastFmValidResponse.json","application/json")]' />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="lastFmProperties" doc:id="c27a055f-1745-4d6d-afac-3e2032959834" >
+				<munit:variables >
+					<munit:variable key="lastFmProperties" value="#[{method: p('last.fm.method'), apiKey: p('last.fm.api.key'), format: p('last.fm.format'), artist: 'The Beatles' }]" mediaType="application/java" />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="sr-get-artist-info" doc:id="0b527d0f-6bd8-4bec-a2a0-ab28a06faa9e" name="sr-get-artist-info"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:verify-call doc:name="Verify call Get Artist HTTP Request" doc:id="1bdfc461-f6d8-42d4-9222-3163f4eef182" processor="http:request" times="#[1]">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Get Artist Bio" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+			<munit-tools:assert-equals doc:name="Assert statusCode is 201" doc:id="2089755c-4cd8-4b1d-946f-e2c822723651" actual="#[payload.statusCode]" expected="201" message="statusCode is 201"/>
+			<munit-tools:assert-that doc:name="Assert that bioUrl found" doc:id="1e3e5e95-373b-4cac-9a53-00675e4648e7" expression="#[payload.bioUrl]" is='#[MunitTools::startsWith("https://")]'/>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>
